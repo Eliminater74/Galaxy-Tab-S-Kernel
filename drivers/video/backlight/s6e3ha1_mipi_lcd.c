@@ -29,6 +29,9 @@
 #include <plat/dsim.h>
 #include <plat/mipi_dsi.h>
 #include <plat/gpio-cfg.h>
+#ifdef CONFIG_POWERSUSPEND
+#include <linux/powersuspend.h>
+#endif
 #include <asm/system_info.h>
 
 #include "s6e3ha1_param.h"
@@ -1731,6 +1734,10 @@ static int s6e3ha1_displayon(struct mipi_dsim_device *dsim)
 
 	s6e3ha1_power(lcd, FB_BLANK_UNBLANK);
 
+#ifdef CONFIG_POWERSUSPEND
+	set_power_suspend_state_panel_hook(POWER_SUSPEND_INACTIVE); // Yank555.lu : add hook to handle powersuspend tasks (wakeup)
+#endif
+
 	return 0;
 }
 
@@ -1739,6 +1746,10 @@ static int s6e3ha1_suspend(struct mipi_dsim_device *dsim)
 	struct lcd_info *lcd = dev_get_drvdata(&dsim->lcd->dev);
 
 	s6e3ha1_power(lcd, FB_BLANK_POWERDOWN);
+
+#ifdef CONFIG_POWERSUSPEND
+	set_power_suspend_state_panel_hook(POWER_SUSPEND_ACTIVE); // Yank555.lu : add hook to handle powersuspend tasks (sleep)
+#endif
 
 	return 0;
 }
