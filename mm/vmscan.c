@@ -160,7 +160,14 @@ struct mem_cgroup_zone {
 /*
  * From 0 .. 100.  Higher means more swappy.
  */
+#ifdef CONFIG_ADAPTIVE_VM_SWAPPINESS
+#define DEFAULT_VM_SWAPPINESS 130
+int vm_swappiness, resume_vm_swappiness;
+#define DEFAULT_VM_SUSPEND_SWAPPINESS 20
+int vm_suspend_swappiness, suspend_vm_swappiness;
+#else
 int vm_swappiness = 130;
+#endif
 long vm_total_pages;	/* The total number of pages which the VM controls */
 
 static LIST_HEAD(shrinker_list);
