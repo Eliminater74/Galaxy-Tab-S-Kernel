@@ -72,7 +72,7 @@ int dirty_background_ratio, resume_dirty_background_ratio;
 #define DEFAULT_DIRTY_SUSPEND_BACKGROUND_RATIO 60
 int dirty_suspend_background_ratio, suspend_dirty_background_ratio;
 #else
-int dirty_background_ratio = 10;
+int dirty_background_ratio = 5;
 #endif
 
 /*
